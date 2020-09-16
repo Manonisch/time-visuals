@@ -16,8 +16,7 @@ import { createPersonTestData } from "./TestData";
     .enter().append("p")
     .text(function (d) { return "My Intervall starts at " + d.startTime.toDateString() + "!"; });
 
-
-  const width = 400;
+  const width = 800;
   const height = 400;
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
@@ -37,6 +36,22 @@ import { createPersonTestData } from "./TestData";
   var line = d3.line()
     .x(function(d) { return x(+d.startTime); })
     .y(function(d) { return y(+d.startRuntime); });
+
+  var axisX = d3.axisBottom(x)
+    .tickFormat(d => new Date(d).toDateString());
+
+  var axisY = d3.axisLeft(d3.scaleLinear()
+    .domain(d3.extent(data.time, d => +d.startRuntime / 365 / 24))
+    .range([height - margin.bottom, margin.top])
+  );
+
+  svg.append("g")
+    //.attr("transform", "translate(30,30)")
+    .call(axisX);
+  
+  svg.append("g")
+    .attr("transform", "translate(100,0)")
+    .call(axisY);
 
   svg.append("g")
     .attr("fill", "white")
