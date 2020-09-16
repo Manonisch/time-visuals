@@ -34,6 +34,19 @@ import { createPersonTestData } from "./TestData";
     .domain(d3.extent(data.time, d => +d.startRuntime))
     .range([height - margin.bottom, margin.top])
 
+  var line = d3.line()
+    .x(function(d) { return x(+d.startTime); })
+    .y(function(d) { return y(+d.startRuntime); });
+
+  svg.append("g")
+    .attr("fill", "white")
+    .attr("stroke", "black")
+    .attr("stroke-width", 2)
+    .selectAll("path")
+    .data(data.time)
+    .join("path")
+    .attr("d", line(data.time));
+  
   svg.append("g")
     .attr("fill", "white")
     .attr("stroke", "black")
