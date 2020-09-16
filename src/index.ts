@@ -1,50 +1,49 @@
-import * as d3 from "d3"
+import * as d3 from "d3";
+import * as _ from "lodash";
+import { createPersonTestData } from "./TestData";
 
 (window as any).startApp = function startApp() {
   console.log('hello typescript');
-
-  d3.create("svg");
-}
-
-/*import d3 from "d3"
-
-function startApp() {
   console.log("startApp")
 
-  const data = [{ x: 1, y: 5 }, { x: 2, y: 1 }];
+  const data = createPersonTestData('Mikkel');
+
+  console.log('what is data', data);
 
   d3.select("body")
     .selectAll("p")
-    .data([4, 8, 15, 16, 23, 42])
+    .data(data.time)
     .enter().append("p")
-      .text(function(d) { return "I’m number " + d + "!"; });
+    .text(function (d) { return "My Intervall starts at " + d.startTime.toDateString() + "!"; });
+
 
   const width = 400;
   const height = 400;
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
   const svg = d3.create("svg")
-    .attr("viewBox", [0, 0, width, height]);
-  
+    .attr("viewBox", [0, 0, width, height])
+    .attr("width", width)
+    .attr("height", height);
+
   const x = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.x)) // nice()
+    .domain(d3.extent(data.time, d => +d.startTime)) // nice()
     .range([margin.left, width - margin.right])
 
   const y = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.y))
+    .domain(d3.extent(data.time, d => +d.startRuntime))
     .range([height - margin.bottom, margin.top])
 
   svg.append("g")
-      .attr("fill", "white")
-      .attr("stroke", "black")
-      .attr("stroke-width", 2)
-      .selectAll("circle")
-      .data(data)
-      .join("circle")
-      .attr("cx", d => x(d.x))
-      .attr("cy", d => y(d.y))
-      .attr("r", 3);
+    .attr("fill", "white")
+    .attr("stroke", "black")
+    .attr("stroke-width", 2)
+    .selectAll("circle")
+    .data(data.time)
+    .join("circle")
+    .attr("cx", d => x(+d.startTime))
+    .attr("cy", d => y(+d.startRuntime))
+    .attr("r", 3);
 
   document.body.appendChild(svg.node());
 }
-*/

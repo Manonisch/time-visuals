@@ -1,7 +1,8 @@
 export enum Progression {
     forward, // (endTime - startTime) == (endRuntime - startRuntime) && >= 0
     jump, // startAge == endAge
-    backward // 
+    backward, // 
+    point
  }
 
 export function createTestData() {
@@ -33,6 +34,13 @@ export function createTestData() {
             startRuntime: years(20) + days(12),
             endRuntime: years(20) + days(15),
             progression: Progression.backward
+        },
+        {
+            startTime: new Date("2010-01-07T12:00:00.000Z"),
+            endTime: new Date("2010-01-07T12:00:00.000Z"),
+            startRuntime: years(20) + days(15),
+            endRuntime: years(20) + days(15),
+            progression: Progression.point
         }
     ]
 }
